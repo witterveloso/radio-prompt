@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Estúdio · Rádio Prompt</title>
+  <link rel="icon" href="assets/icone.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><span class="cursor">&gt;_</span> Estúdio <b>Rádio Prompt</b></div>
+    <div class="topo-acoes">
+      <span class="pendentes" id="pendentes" hidden></span>
+      <a class="btn fantasma" href="./" target="_blank">Ver a rádio</a>
+      <button class="btn primario" data-ir="publicar">Publicar</button>
+    </div>
+  </header>
+
+  <nav class="abas" role="tablist">
+    <button class="aba ativa" data-aba="musicas">Músicas</button>
+    <button class="aba" data-aba="vinhetas">Vinhetas</button>
+    <button class="aba" data-aba="grade">Grade</button>
+    <button class="aba" data-aba="simulador">Simulador</button>
+    <button class="aba" data-aba="config">Configurações</button>
+    <button class="aba" data-aba="publicar">Publicar</button>
+  </nav>
+
+  <main>
+    <!-- MÚSICAS -->
+    <section class="painel ativo" id="aba-musicas">
+      <div class="cabecalho">
+        <div>
+          <h1>Músicas</h1>
+          <p class="sub" id="resumoMusicas"></p>
+        </div>
+        <div class="acoes">
+          <label class="btn fantasma">Enviar várias de uma vez<input type="file" id="multiplas" accept="audio/*" multiple hidden></label>
+          <button class="btn primario" id="novaMusica">Nova música</button>
+        </div>
+      </div>
+
+      <div class="soltar" id="areaSoltar">Arraste aqui os MP3 que você gerou no Suno, Udio ou outra IA</div>
+
+      <div class="filtros">
+        <input type="search" id="buscaMusica" placeholder="Buscar por título, artista ou prompt">
+        <select id="filtroGenero"><option value="">Todos os gêneros</option></select>
+      </div>
+      <div class="tabela-wrap">
+        <table class="tabela">
+          <thead><tr><th></th><th>Faixa</th><th>Gênero</th><th>Duração</th><th>Modelo</th><th>No ar</th><th></th></tr></thead>
+          <tbody id="tabelaMusicas"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VINHETAS -->
+    <section class="painel" id="aba-vinhetas">
+      <div class="cabecalho">
+        <div>
+          <h1>Vinhetas</h1>
+          <p class="sub">Identificação toca a cada N músicas. Abertura toca quando muda o bloco da grade.</p>
+        </div>
+        <button class="btn primario" id="novaVinheta">Nova vinheta</button>
+      </div>
+      <div class="tabela-wrap">
+        <table class="tabela">
+          <thead><tr><th>Nome</th><th>Tipo</th><th>Duração</th><th>No ar</th><th></th></tr></thead>
+          <tbody id="tabelaVinhetas"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GRADE -->
+    <section class="painel" id="aba-grade">
+      <div class="cabecalho">
+        <div>
+          <h1>Grade de programação</h1>
+          <p class="sub">Cada bloco toca músicas dos gêneros escolhidos, em ordem embaralhada que muda todo dia.</p>
+        </div>
+        <button class="btn primario" id="novoBloco">Novo bloco</button>
+      </div>
+      <div class="linha-24h" id="previaGrade"></div>
+      <div id="alertasGrade"></div>
+      <div id="listaGrade" class="lista-grade"></div>
+      <p class="dica">Gêneros cadastrados: <span id="generosDisponiveis"></span></p>
+    </section>
+
+    <!-- SIMULADOR -->
+    <section class="painel" id="aba-simulador">
+      <div class="cabecalho">
+        <div>
+          <h1>Simulador</h1>
+          <p class="sub">Veja exatamente o que vai tocar em qualquer dia e horário, com as alterações ainda não publicadas.</p>
+        </div>
+      </div>
+      <div class="filtros">
+        <label>Dia <input type="date" id="simData"></label>
+        <label>A partir de <input type="time" id="simHora" value="08:00"></label>
+        <button class="btn fantasma" id="simAgora">Agora</button>
+      </div>
+      <div class="estatisticas" id="simStats"></div>
+      <div class="tabela-wrap">
+        <table class="tabela">
+          <thead><tr><th>Horário</th><th>Tipo</th><th>Título</th><th>Bloco</th><th>Duração</th></tr></thead>
+          <tbody id="simTabela"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section class="painel" id="aba-config">
+      <div class="cabecalho"><div><h1>Configurações da rádio</h1></div></div>
+      <form class="formulario" id="formConfig">
+        <label>Nome da rádio<input name="nome" required></label>
+        <label>Slogan<input name="slogan"></label>
+        <label>Vinheta de identificação a cada quantas músicas<input name="vinhetaACadaMusicas" type="number" min="0" max="20"></label>
+        <label class="check"><input name="aberturaDeBloco" type="checkbox"> Tocar vinheta de abertura quando muda o bloco</label>
+        <label>Fuso horário da grade<input name="fusoHorario" placeholder="America/Sao_Paulo"></label>
+        <label>Instagram (sem @)<input name="instagram"></label>
+        <label>WhatsApp (só números, com DDD)<input name="whatsapp"></label>
+        <label>E-mail de contato<input name="email" type="email"></label>
+      </form>
+    </section>
+
+    <!-- PUBLICAR -->
+    <section class="painel" id="aba-publicar">
+      <div class="cabecalho">
+        <div>
+          <h1>Publicar no GitHub</h1>
+          <p class="sub">Envia músicas, vinhetas e grade direto para o repositório. O GitHub Pages atualiza a rádio em 1 a 2 minutos.</p>
+        </div>
+      </div>
+      <div class="publicar-grid">
+        <form class="formulario" id="formGithub">
+          <label>Usuário ou organização no GitHub<input name="dono" placeholder="witterveloso" required></label>
+          <label>Nome do repositório<input name="repo" placeholder="radio-prompt" required></label>
+          <label>Branch<input name="branch" value="main" required></label>
+          <label>Token de acesso (fine-grained, permissão Contents: Read and write)<input name="token" type="password" autocomplete="off" required></label>
+          <p class="dica">O token fica salvo só neste navegador. Sem ele, ninguém consegue publicar, mesmo que abra esta página.</p>
+          <div class="acoes">
+            <button type="button" class="btn fantasma" id="testarGithub">Testar conexão</button>
+            <button type="button" class="btn fantasma" id="esquecerToken">Esquecer token</button>
+          </div>
+        </form>
+        <div class="publicar-lado">
+          <h2>Alterações a publicar</h2>
+          <ul id="listaPendentes" class="lista-pendentes"></ul>
+          <button class="btn primario grande" id="publicarAgora">Publicar alterações</button>
+          <button class="btn fantasma" id="baixarDados">Baixar arquivos de dados (.json)</button>
+          <pre class="log" id="logPublicar"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- modal de edição -->
+  <dialog id="modal">
+    <form method="dialog" class="formulario" id="formModal">
+      <h2 id="modalTitulo">Música</h2>
+      <div id="modalCampos"></div>
+      <div class="acoes fim">
+        <button value="cancelar" class="btn fantasma" formnovalidate>Cancelar</button>
+        <button value="salvar" class="btn primario" id="modalSalvar">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <audio id="previa"></audio>
+  <script type="module" src="assets/admin.js"></script>
+</body>
+</html>

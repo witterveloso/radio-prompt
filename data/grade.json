@@ -1,0 +1,8 @@
+[
+  { "id": "madrugada-latente", "nome": "Madrugada Latente", "inicio": "00:00", "fim": "06:00", "generos": ["ambient", "lofi"], "descricao": "Texturas lentas e batidas suaves para quem atravessa a noite." },
+  { "id": "bom-dia-prompt", "nome": "Bom Dia, Prompt", "inicio": "06:00", "fim": "10:00", "generos": ["bossa", "pop", "lofi"], "descricao": "Despertar leve com bossa eletrônica e pop otimista." },
+  { "id": "modo-foco", "nome": "Modo Foco", "inicio": "10:00", "fim": "14:00", "generos": ["lofi", "ambient"], "descricao": "Trilha sem distrações para trabalhar e estudar." },
+  { "id": "tarde-generativa", "nome": "Tarde Generativa", "inicio": "14:00", "fim": "18:00", "generos": ["pop", "synthwave", "bossa"], "descricao": "O melhor do pop e do synthwave criado por máquinas." },
+  { "id": "hora-do-pico", "nome": "Hora do Pico", "inicio": "18:00", "fim": "22:00", "generos": ["house", "synthwave", "pop"], "descricao": "Energia alta para a volta para casa e o começo da noite." },
+  { "id": "ultimo-token", "nome": "Último Token", "inicio": "22:00", "fim": "24:00", "generos": ["lofi", "ambient", "house"], "descricao": "Desacelerando até a meia-noite." }
+]

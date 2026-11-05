@@ -1,0 +1,98 @@
+[
+  {
+    "id": "madrugada-em-cache",
+    "titulo": "Madrugada em Cache",
+    "artista": "Nuvem Neural",
+    "genero": "lofi",
+    "modelo": "Demo procedural",
+    "prompt": "lo-fi hip hop instrumental, piano elétrico suave, chiado de vinil, batida arrastada a 78 BPM, clima de madrugada chuvosa em São Paulo",
+    "arquivo": "audio/musicas/madrugada-em-cache.mp3",
+    "duracao": 112.8,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "cafe-com-algoritmo",
+    "titulo": "Café com Algoritmo",
+    "artista": "Nuvem Neural",
+    "genero": "lofi",
+    "modelo": "Demo procedural",
+    "prompt": "lo-fi jazz instrumental, acordes de sétima, baixo redondo, swing leve, sensação de manhã preguiçosa e café passado",
+    "arquivo": "audio/musicas/cafe-com-algoritmo.mp3",
+    "duracao": 104.91,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "neon-na-marginal",
+    "titulo": "Neon na Marginal",
+    "artista": "Latência Zero",
+    "genero": "synthwave",
+    "modelo": "Demo procedural",
+    "prompt": "synthwave anos 80, sintetizadores analógicos, baixo pulsante em colcheias, bateria eletrônica com reverb, dirigindo à noite pela Marginal",
+    "arquivo": "audio/musicas/neon-na-marginal.mp3",
+    "duracao": 112.8,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "horizonte-vetorial",
+    "titulo": "Horizonte Vetorial",
+    "artista": "Latência Zero",
+    "genero": "synthwave",
+    "modelo": "Demo procedural",
+    "prompt": "retrowave épico instrumental, pads largos, arpejo brilhante, clima de pôr do sol digital e estrada infinita",
+    "arquivo": "audio/musicas/horizonte-vetorial.mp3",
+    "duracao": 102.03,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "bossa-dos-pesos",
+    "titulo": "Bossa dos Pesos",
+    "artista": "Maré Sintética",
+    "genero": "bossa",
+    "modelo": "Demo procedural",
+    "prompt": "bossa nova eletrônica instrumental, violão sintético, batida de bossa em loop, acordes ii V I, brisa de fim de tarde em Ipanema",
+    "arquivo": "audio/musicas/bossa-dos-pesos.mp3",
+    "duracao": 98.04,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "pista-de-tokens",
+    "titulo": "Pista de Tokens",
+    "artista": "Os Tokens",
+    "genero": "house",
+    "modelo": "Demo procedural",
+    "prompt": "deep house instrumental, bumbo quatro por quatro, hi-hat no contratempo, baixo grave e pads quentes, pista cheia às 23h",
+    "arquivo": "audio/musicas/pista-de-tokens.mp3",
+    "duracao": 112.2,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "espaco-latente",
+    "titulo": "Espaço Latente",
+    "artista": "Coral de Pesos",
+    "genero": "ambient",
+    "modelo": "Demo procedural",
+    "prompt": "ambient etéreo, drones lentos, texturas de sintetizador, sem bateria, sensação de flutuar dentro de uma rede neural",
+    "arquivo": "audio/musicas/espaco-latente.mp3",
+    "duracao": 98.04,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  },
+  {
+    "id": "sinal-verde",
+    "titulo": "Sinal Verde",
+    "artista": "Vetor 88",
+    "genero": "pop",
+    "modelo": "Demo procedural",
+    "prompt": "pop eletrônico brasileiro instrumental, refrão marcante, sintetizadores brilhantes, batida dançante e otimista",
+    "arquivo": "audio/musicas/sinal-verde.mp3",
+    "duracao": 104.91,
+    "ativa": true,
+    "adicionadaEm": "2026-11-04"
+  }
+]

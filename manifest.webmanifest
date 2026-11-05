@@ -1,0 +1,10 @@
+{
+  "name": "Rádio Prompt",
+  "short_name": "Rádio Prompt",
+  "description": "Toda a programação musical criada por inteligência artificial.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b0a12",
+  "theme_color": "#0b0a12",
+  "icons": [{ "src": "assets/icone.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

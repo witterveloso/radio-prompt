@@ -1,0 +1,18 @@
+[
+  {
+    "id": "id-radio-prompt",
+    "nome": "Identificação Rádio Prompt",
+    "tipo": "identificacao",
+    "arquivo": "audio/vinhetas/id-radio-prompt.mp3",
+    "duracao": 4.55,
+    "ativa": true
+  },
+  {
+    "id": "abertura-de-bloco",
+    "nome": "Abertura de bloco",
+    "tipo": "abertura",
+    "arquivo": "audio/vinhetas/abertura-de-bloco.mp3",
+    "duracao": 4.55,
+    "ativa": true
+  }
+]
