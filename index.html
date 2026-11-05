@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Rádio Prompt · música criada por IA, 24 horas no ar</title>
   <meta name="description" content="Rádio Prompt: a rádio web com toda a programação musical criada por inteligência artificial. Ouça ao vivo e veja o prompt que gerou cada música.">
-  <meta name="theme-color" content="#0b0a12">
+  <meta name="theme-color" content="#0a0812">
   <meta property="og:title" content="Rádio Prompt">
   <meta property="og:description" content="Toda a programação musical criada por inteligência artificial. Ao vivo, 24 horas.">
   <meta property="og:type" content="website">
@@ -18,57 +18,137 @@
 </head>
 <body>
   <div class="ruido" aria-hidden="true"></div>
+  <div class="glow-bg" aria-hidden="true"></div>
 
-  <header class="topo">
-    <a class="marca" href="./" aria-label="Rádio Prompt, início">
-      <span class="marca-cursor">&gt;_</span>
-      <span class="marca-nome">Rádio Prompt</span>
-    </a>
-    <div class="topo-status">
-      <span class="no-ar" id="indicadorNoAr"><i></i>No ar</span>
-      <span class="relogio" id="relogio">--:--</span>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a class="marca" href="./" aria-label="Rádio Prompt, início">
+        <span class="marca-icone" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" stroke="url(#grad-icon)" stroke-width="1.5"/>
+            <path d="M7 14 Q10 8 14 14 Q18 20 21 14" stroke="url(#grad-icon)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="grad-icon" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#5b8fff"/>
+                <stop offset="100%" stop-color="#c76dfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="marca-texto">Rádio<span class="marca-destaque">Prompt</span></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#" class="nav-link nav-link-ativo">Início</a>
+        <a href="#grade" class="nav-link">Programação</a>
+        <a href="#" class="nav-link">Podcasts IA</a>
+        <a href="#" class="nav-link">Especiais</a>
+        <a href="#manifesto" class="nav-link">Sobre a Rádio</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <span class="no-ar" id="indicadorNoAr" aria-label="No ar"><i></i><span class="no-ar-texto">No ar</span></span>
+        <button class="btn-ouvir" id="navBotaoPlay" aria-label="Ouvir agora">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+          Ouça Agora
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="palco" aria-label="Player ao vivo">
-      <div class="player">
-        <div class="capa-wrap">
-          <canvas id="capa" width="720" height="720" aria-hidden="true"></canvas>
-          <img id="capaImg" alt="" hidden>
-          <div class="capa-selo" id="seloTipo">Música</div>
-        </div>
+  <!-- HERO -->
+  <section class="hero" aria-label="Cabeçalho principal">
+    <div class="hero-inner">
+      <div class="hero-badges">
+        <span class="badge badge-pulse"><i></i> WEB RÁDIO ONLINE 24 HORAS</span>
+        <span class="badge badge-ia">PROGRAMAÇÃO CRIADA COM IA</span>
+      </div>
 
-        <div class="player-info">
-          <p class="bloco-atual"><span id="blocoNome">Sintonizando</span><span class="bloco-hora" id="blocoHora"></span></p>
-          <h1 class="faixa-titulo" id="faixaTitulo">Rádio Prompt</h1>
-          <p class="faixa-artista"><span id="faixaArtista">Carregando a programação</span> <span class="tag" id="faixaGenero" hidden></span></p>
-
-          <div class="progresso" aria-hidden="true">
-            <div class="progresso-barra"><div class="progresso-fill" id="progressoFill"></div></div>
-            <div class="progresso-tempos"><span id="tempoDecorrido">0:00</span><span id="tempoTotal">0:00</span></div>
-          </div>
-
-          <div class="controles">
-            <button class="botao-play" id="botaoPlay" aria-label="Ouvir ao vivo" disabled>
+      <div class="hero-conteudo">
+        <div class="hero-esquerda">
+          <h1 class="hero-titulo">
+            <span class="hero-titulo-radio">Rádio</span>
+            <span class="hero-titulo-prompt">Prompt</span>
+          </h1>
+          <p class="hero-tagline">Do rádio clássico à nova era por Prompt.</p>
+          <div class="hero-acoes">
+            <button class="botao-play botao-play-hero" id="botaoPlay" aria-label="Ouvir ao vivo" disabled>
               <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
               <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
               <span class="botao-play-texto">Ouvir ao vivo</span>
             </button>
-            <label class="volume">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
-              <input type="range" id="volume" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
-            </label>
-            <button class="botao-compartilhar" id="botaoCompartilhar" aria-label="Compartilhar a rádio">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
-            </button>
+            <span class="relogio" id="relogio">--:--</span>
           </div>
+        </div>
 
-          <canvas class="espectro" id="espectro" width="900" height="120" aria-hidden="true"></canvas>
+        <div class="hero-direita">
+          <div class="hero-info-cols">
+            <div class="hero-info-col">
+              <span class="hero-info-label">MÚSICA</span>
+              <span class="hero-info-sep">·</span>
+              <span class="hero-info-label">NOTÍCIAS</span>
+            </div>
+            <div class="hero-info-col">
+              <span class="hero-info-label">ENTRETENIMENTO</span>
+              <span class="hero-info-sep">·</span>
+              <span class="hero-info-label">PODCASTS</span>
+            </div>
+            <div class="hero-info-col">
+              <span class="hero-info-label">ESPECIAIS</span>
+              <span class="hero-info-sep">·</span>
+              <span class="hero-info-label">E MUITO MAIS</span>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <aside class="terminal" aria-label="Prompt da música no ar">
+  <!-- PLAYER BAR -->
+  <div class="player-bar" aria-label="Player ao vivo">
+    <div class="player-bar-inner">
+      <div class="player-bar-capa">
+        <canvas id="capa" width="720" height="720" aria-hidden="true"></canvas>
+        <img id="capaImg" alt="" hidden>
+        <span class="capa-selo" id="seloTipo">Música</span>
+      </div>
+
+      <div class="player-bar-info">
+        <p class="player-bar-label"><span id="blocoNome">Sintonizando</span><span class="player-bar-hora" id="blocoHora"></span></p>
+        <p class="player-bar-titulo" id="faixaTitulo">Rádio Prompt</p>
+        <p class="player-bar-artista"><span id="faixaArtista">Carregando a programação</span> <span class="tag" id="faixaGenero" hidden></span></p>
+      </div>
+
+      <div class="player-bar-espectro">
+        <canvas class="espectro" id="espectro" width="900" height="120" aria-hidden="true"></canvas>
+      </div>
+
+      <div class="player-bar-controles">
+        <div class="progresso" aria-hidden="true">
+          <div class="progresso-barra"><div class="progresso-fill" id="progressoFill"></div></div>
+          <div class="progresso-tempos"><span id="tempoDecorrido">0:00</span><span id="tempoTotal">0:00</span></div>
+        </div>
+        <div class="controles">
+          <label class="volume">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
+          </label>
+          <button class="botao-compartilhar" id="botaoCompartilhar" aria-label="Compartilhar a rádio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- PROMPT TERMINAL -->
+    <section class="secao-prompt" aria-label="Prompt da música no ar">
+      <aside class="terminal">
         <div class="terminal-barra">
           <span class="pontos"><i></i><i></i><i></i></span>
           <span class="terminal-titulo">prompt_no_ar.txt</span>
@@ -80,6 +160,54 @@
       </aside>
     </section>
 
+    <!-- TILES CATEGORIA -->
+    <section class="categorias" aria-label="Categorias da programação">
+      <h2 class="secao-titulo"><span>00</span> Programação</h2>
+      <div class="tiles-grid">
+        <div class="tile tile-destaque">
+          <div class="tile-icone">🎵</div>
+          <h3 class="tile-nome">Música 24 Horas</h3>
+          <p class="tile-desc">Faixas geradas por IA em todos os gêneros, o dia todo.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">🎙️</div>
+          <h3 class="tile-nome">Programas Originais</h3>
+          <p class="tile-desc">Shows exclusivos criados com inteligência artificial.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">⭐</div>
+          <h3 class="tile-nome">Especiais e Séries</h3>
+          <p class="tile-desc">Conteúdo temático e séries musicais semanais.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">🤖</div>
+          <h3 class="tile-nome">Podcasts com IA</h3>
+          <p class="tile-desc">Conversas e análises geradas por modelos de linguagem.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">📰</div>
+          <h3 class="tile-nome">Notícias e Atualidades</h3>
+          <p class="tile-desc">Boletins informativos produzidos por IA em tempo real.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">🎭</div>
+          <h3 class="tile-nome">Cultura e Entretenimento</h3>
+          <p class="tile-desc">Arte, cinema, literatura e cultura pop com curadoria de IA.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">📻</div>
+          <h3 class="tile-nome">Nostalgia do Rádio</h3>
+          <p class="tile-desc">Sons clássicos do rádio reinventados por inteligência artificial.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-icone">✨</div>
+          <h3 class="tile-nome">Conteúdo 100% com IA</h3>
+          <p class="tile-desc">Da pauta à locução, tudo produzido por inteligência artificial.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAIXAS -->
     <section class="faixas">
       <div class="coluna">
         <h2 class="secao-titulo"><span>01</span> A seguir</h2>
@@ -91,13 +219,15 @@
       </div>
     </section>
 
-    <section class="grade" aria-labelledby="tituloGrade">
+    <!-- GRADE -->
+    <section class="grade" id="grade" aria-labelledby="tituloGrade">
       <h2 class="secao-titulo" id="tituloGrade"><span>03</span> Grade de hoje</h2>
       <div class="linha-24h" id="linha24h" aria-hidden="true"><div class="linha-agora" id="linhaAgora"></div></div>
       <ul class="blocos" id="listaBlocos"></ul>
     </section>
 
-    <section class="manifesto">
+    <!-- MANIFESTO -->
+    <section class="manifesto" id="manifesto">
       <h2 class="secao-titulo"><span>04</span> O que é a Rádio Prompt</h2>
       <div class="manifesto-grid">
         <p class="manifesto-frase">Nenhuma nota desta programação foi tocada por mãos humanas. <em>Toda música começou como um prompt.</em></p>
@@ -110,14 +240,40 @@
   </main>
 
   <footer class="rodape">
-    <span class="marca-cursor">&gt;_</span>
-    <span id="rodapeNome">Rádio Prompt</span>
-    <span class="rodape-sep">·</span>
-    <span id="rodapeSlogan">Toda a programação musical criada por inteligência artificial.</span>
-    <span class="rodape-links" id="rodapeLinks"></span>
+    <div class="rodape-inner">
+      <span class="marca-cursor">&gt;_</span>
+      <span id="rodapeNome">Rádio Prompt</span>
+      <span class="rodape-sep">·</span>
+      <span id="rodapeSlogan">Toda a programação musical criada por inteligência artificial.</span>
+      <span class="rodape-links" id="rodapeLinks"></span>
+    </div>
   </footer>
 
+  <div class="aviso" id="aviso" hidden></div>
   <audio id="audio" preload="none" crossorigin="anonymous"></audio>
   <script type="module" src="assets/player.js"></script>
+  <script>
+    // Sync navbar play button with main play button
+    document.addEventListener('DOMContentLoaded', () => {
+      const navBtn = document.getElementById('navBotaoPlay');
+      const mainBtn = document.getElementById('botaoPlay');
+      if (navBtn && mainBtn) {
+        navBtn.addEventListener('click', () => mainBtn.click());
+        const obs = new MutationObserver(() => {
+          navBtn.disabled = mainBtn.disabled;
+        });
+        obs.observe(mainBtn, { attributes: true });
+      }
+      // Hamburger
+      const ham = document.getElementById('hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      if (ham && navLinks) {
+        ham.addEventListener('click', () => {
+          const open = navLinks.classList.toggle('nav-links-open');
+          ham.setAttribute('aria-expanded', open);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
