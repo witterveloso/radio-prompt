@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Rádio Prompt · música criada por IA, 24 horas no ar</title>
-  <meta name="description" content="Rádio Prompt: a rádio web com toda a programação musical criada por inteligência artificial. Ouça ao vivo.">
-  <meta name="theme-color" content="#08061a">
+  <meta name="description" content="Rádio Prompt: a rádio web com toda a programação musical criada por inteligência artificial. Ouça ao vivo e veja o prompt que gerou cada música.">
+  <meta name="theme-color" content="#0b0a12">
   <meta property="og:title" content="Rádio Prompt">
   <meta property="og:description" content="Toda a programação musical criada por inteligência artificial. Ao vivo, 24 horas.">
   <meta property="og:type" content="website">
@@ -19,241 +19,55 @@
 <body>
   <div class="ruido" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       NAVBAR
-  ═══════════════════════════════════════════════════════ -->
-  <header class="navbar">
-    <div class="navbar-inner">
-      <a class="marca" href="./" aria-label="Rádio Prompt">
-        <svg class="marca-wave" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-          <path d="M2 11 Q4 5 7 11 Q10 17 13 11 Q16 5 20 11" stroke="url(#gw)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <defs><linearGradient id="gw" x1="2" y1="0" x2="20" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5b8fff"/><stop offset="100%" stop-color="#e06dba"/></linearGradient></defs>
-        </svg>
-        <span class="marca-texto">Rádio<span class="marca-p">Prompt</span></span>
-      </a>
-
-      <nav class="nav-links" id="navLinks" aria-label="Principal">
-        <a href="#" class="nav-link nav-ativo">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          Início
-        </a>
-        <a href="#grade" class="nav-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
-          Programação
-        </a>
-        <a href="#" class="nav-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-          Podcasts IA
-        </a>
-        <a href="#" class="nav-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          Especiais
-        </a>
-        <a href="#manifesto" class="nav-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          Sobre a Rádio
-        </a>
-      </nav>
-
-      <div class="navbar-direita">
-        <span class="no-ar" id="indicadorNoAr"><i></i><span>No ar</span></span>
-        <button class="btn-ouva" id="navPlay" disabled aria-label="Ouvir agora">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
-          Ouça Agora
-        </button>
-        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+  <header class="topo">
+    <a class="marca" href="./" aria-label="Rádio Prompt, início">
+      <span class="marca-cursor">&gt;_</span>
+      <span class="marca-nome">Rádio Prompt</span>
+    </a>
+    <div class="topo-status">
+      <span class="no-ar" id="indicadorNoAr"><i></i>No ar</span>
+      <span class="relogio" id="relogio">--:--</span>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════════════════ -->
-  <section class="hero" aria-label="Cabeçalho">
-    <!-- Fundo decorativo -->
-    <div class="hero-bg" aria-hidden="true">
-      <div class="hero-glow hero-glow-l"></div>
-      <div class="hero-glow hero-glow-r"></div>
-      <div class="hero-glow hero-glow-b"></div>
-    </div>
-
-    <div class="hero-inner">
-      <!-- Coluna esquerda: tagline -->
-      <div class="hero-col hero-col-esq">
-        <p class="hero-tagline">Do rádio clássico<br>à nova era<br><em>por Prompt.</em></p>
-        <span class="hero-relogio" id="relogio">--:--</span>
-      </div>
-
-      <!-- Centro: logo + visuais -->
-      <div class="hero-col hero-col-centro">
-        <!-- Visual central — ícone de rádio estilizado -->
-        <div class="hero-visual" aria-hidden="true">
-          <svg class="hero-radio-svg" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Ondas de fundo -->
-            <ellipse cx="160" cy="130" rx="145" ry="85" fill="url(#grad-elipse)" opacity=".18"/>
-            <ellipse cx="160" cy="130" rx="100" ry="58" fill="url(#grad-elipse)" opacity=".15"/>
-            <!-- Corpo do rádio -->
-            <rect x="55" y="70" width="210" height="130" rx="18" fill="url(#grad-radio)" stroke="#ffffff18" stroke-width="1"/>
-            <!-- Grade do alto-falante esq -->
-            <circle cx="100" cy="135" r="36" fill="#0d0b1e" stroke="#ffffff12" stroke-width="1"/>
-            <circle cx="100" cy="135" r="26" fill="#12102a" stroke="url(#grad-spk)" stroke-width="1.5"/>
-            <circle cx="100" cy="135" r="10" fill="url(#grad-spk-c)"/>
-            <!-- Grade do alto-falante dir -->
-            <circle cx="220" cy="135" r="36" fill="#0d0b1e" stroke="#ffffff12" stroke-width="1"/>
-            <circle cx="220" cy="135" r="26" fill="#12102a" stroke="url(#grad-spk)" stroke-width="1.5"/>
-            <circle cx="220" cy="135" r="10" fill="url(#grad-spk-c)"/>
-            <!-- Display central -->
-            <rect x="128" y="82" width="64" height="40" rx="6" fill="#0a0820" stroke="#5b8fff44" stroke-width="1"/>
-            <rect x="131" y="85" width="58" height="34" rx="4" fill="url(#grad-display)" opacity=".8"/>
-            <!-- VU meter estilizado -->
-            <rect x="136" y="90" width="6" height="22" rx="2" fill="#ff5a1f" opacity=".7"/>
-            <rect x="145" y="88" width="6" height="24" rx="2" fill="#ff5a1f" opacity=".85"/>
-            <rect x="154" y="92" width="6" height="20" rx="2" fill="#ff5a1f"/>
-            <rect x="163" y="86" width="6" height="26" rx="2" fill="#ff5a1f" opacity=".9"/>
-            <rect x="172" y="90" width="6" height="22" rx="2" fill="#ff5a1f" opacity=".75"/>
-            <!-- Cassete slot -->
-            <rect x="130" y="128" width="60" height="34" rx="5" fill="#0a0820" stroke="#ffffff18" stroke-width="1"/>
-            <rect x="140" y="134" width="40" height="22" rx="3" fill="#12102a"/>
-            <circle cx="150" cy="145" r="6" fill="#1a1735" stroke="#ffffff22" stroke-width="1"/>
-            <circle cx="150" cy="145" r="2.5" fill="#5b8fff66"/>
-            <circle cx="170" cy="145" r="6" fill="#1a1735" stroke="#ffffff22" stroke-width="1"/>
-            <circle cx="170" cy="145" r="2.5" fill="#5b8fff66"/>
-            <!-- Antena -->
-            <line x1="240" y1="70" x2="260" y2="20" stroke="url(#grad-ant)" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="261" cy="18" r="3" fill="#b9a6ff"/>
-            <!-- Gradients -->
-            <defs>
-              <linearGradient id="grad-elipse" x1="0" y1="0" x2="320" y2="220" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#5b8fff"/>
-                <stop offset="100%" stop-color="#e06dba"/>
-              </linearGradient>
-              <linearGradient id="grad-radio" x1="55" y1="70" x2="265" y2="200" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#1e1a40"/>
-                <stop offset="100%" stop-color="#150e30"/>
-              </linearGradient>
-              <linearGradient id="grad-spk" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#5b8fff"/>
-                <stop offset="100%" stop-color="#e06dba"/>
-              </linearGradient>
-              <radialGradient id="grad-spk-c" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#5b8fff"/>
-                <stop offset="100%" stop-color="#a56bfa"/>
-              </radialGradient>
-              <linearGradient id="grad-display" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#ff5a1f" stop-opacity=".3"/>
-                <stop offset="100%" stop-color="#ff5a1f" stop-opacity=".05"/>
-              </linearGradient>
-              <linearGradient id="grad-ant" x1="240" y1="70" x2="260" y2="20" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#5b8fff"/>
-                <stop offset="100%" stop-color="#b9a6ff"/>
-              </linearGradient>
-            </defs>
-          </svg>
+  <main>
+    <section class="palco" aria-label="Player ao vivo">
+      <div class="player">
+        <div class="capa-wrap">
+          <canvas id="capa" width="720" height="720" aria-hidden="true"></canvas>
+          <img id="capaImg" alt="" hidden>
+          <div class="capa-selo" id="seloTipo">Música</div>
         </div>
 
-        <!-- Título principal -->
-        <div class="hero-logo-bloco">
-          <h1 class="hero-titulo">
-            <span class="ht-radio">Rádio</span><span class="ht-prompt">Prompt</span>
-            <svg class="ht-wave" viewBox="0 0 36 24" fill="none" aria-hidden="true">
-              <path d="M2 12 Q6 4 10 12 Q14 20 18 12 Q22 4 26 12 Q30 20 34 12" stroke="url(#htw)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <defs><linearGradient id="htw" x1="2" y1="0" x2="34" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5b8fff"/><stop offset="100%" stop-color="#e06dba"/></linearGradient></defs>
-            </svg>
-          </h1>
-          <div class="hero-selos">
-            <span class="selo-24h">— WEB RÁDIO ONLINE 24 HORAS —</span>
+        <div class="player-info">
+          <p class="bloco-atual"><span id="blocoNome">Sintonizando</span><span class="bloco-hora" id="blocoHora"></span></p>
+          <h1 class="faixa-titulo" id="faixaTitulo">Rádio Prompt</h1>
+          <p class="faixa-artista"><span id="faixaArtista">Carregando a programação</span> <span class="tag" id="faixaGenero" hidden></span></p>
+
+          <div class="progresso" aria-hidden="true">
+            <div class="progresso-barra"><div class="progresso-fill" id="progressoFill"></div></div>
+            <div class="progresso-tempos"><span id="tempoDecorrido">0:00</span><span id="tempoTotal">0:00</span></div>
           </div>
-          <div class="hero-badge-ia">
-            <span>PROGRAMAÇÃO CRIADA COM <strong>IA</strong></span>
+
+          <div class="controles">
+            <button class="botao-play" id="botaoPlay" aria-label="Ouvir ao vivo" disabled>
+              <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+              <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+              <span class="botao-play-texto">Ouvir ao vivo</span>
+            </button>
+            <label class="volume">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+              <input type="range" id="volume" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
+            </label>
+            <button class="botao-compartilhar" id="botaoCompartilhar" aria-label="Compartilhar a rádio">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
+            </button>
           </div>
+
+          <canvas class="espectro" id="espectro" width="900" height="120" aria-hidden="true"></canvas>
         </div>
       </div>
 
-      <!-- Coluna direita: categorias texto -->
-      <div class="hero-col hero-col-dir">
-        <ul class="hero-cats">
-          <li>MÚSICA</li>
-          <li class="hc-sep">·</li>
-          <li>NOTÍCIAS</li>
-          <li class="hc-br"></li>
-          <li>ENTRETENIMENTO</li>
-          <li class="hc-br"></li>
-          <li>PODCASTS</li>
-          <li class="hc-sep">·</li>
-          <li>ESPECIAIS</li>
-          <li class="hc-br"></li>
-          <li class="hc-mais">E MUITO MAIS</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       PLAYER BAR
-  ═══════════════════════════════════════════════════════ -->
-  <div class="player-bar" aria-label="Player ao vivo">
-    <div class="player-bar-inner">
-
-      <!-- Controles de transporte -->
-      <div class="pb-transport">
-        <button class="pb-btn pb-btn-sm" aria-label="Anterior" disabled>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
-        </button>
-        <button class="botao-play pb-play" id="botaoPlay" aria-label="Ouvir ao vivo" disabled>
-          <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
-          <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-        </button>
-        <button class="pb-btn pb-btn-sm" aria-label="Próximo" disabled>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 4V8l-5.5 4zM16 6h2v12h-2z"/></svg>
-        </button>
-      </div>
-
-      <!-- Capa -->
-      <div class="pb-capa">
-        <canvas id="capa" width="720" height="720" aria-hidden="true"></canvas>
-        <img id="capaImg" alt="" hidden>
-        <span class="pb-capa-selo" id="seloTipo">Música</span>
-      </div>
-
-      <!-- Info da faixa -->
-      <div class="pb-info">
-        <p class="pb-label">Agora na Rádio Prompt · <span id="blocoNome">Sintonizando</span><span class="pb-hora" id="blocoHora"></span></p>
-        <p class="pb-titulo" id="faixaTitulo">Rádio Prompt</p>
-        <p class="pb-artista"><span id="faixaArtista">Carregando a programação</span> <span class="tag" id="faixaGenero" hidden></span></p>
-      </div>
-
-      <!-- Espectro -->
-      <div class="pb-espectro" aria-hidden="true">
-        <canvas class="espectro" id="espectro" width="900" height="120"></canvas>
-      </div>
-
-      <!-- Volume + progresso -->
-      <div class="pb-controles">
-        <div class="progresso" aria-hidden="true">
-          <div class="progresso-barra"><div class="progresso-fill" id="progressoFill"></div></div>
-          <div class="progresso-tempos"><span id="tempoDecorrido">0:00</span><span id="tempoTotal">0:00</span></div>
-        </div>
-        <div class="pb-vol-row">
-          <label class="volume">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
-            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
-          </label>
-          <button class="pb-btn pb-btn-sm pb-share" id="botaoCompartilhar" aria-label="Compartilhar">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       TERMINAL DE PROMPT  (mantido no início, logo após player)
-  ═══════════════════════════════════════════════════════ -->
-  <div class="prompt-wrap">
-    <div class="prompt-wrap-inner">
       <aside class="terminal" aria-label="Prompt da música no ar">
         <div class="terminal-barra">
           <span class="pontos"><i></i><i></i><i></i></span>
@@ -264,70 +78,8 @@
 <span id="promptTexto"></span><span class="cursor">▍</span></pre>
         <p class="terminal-rodape">Cada faixa desta rádio nasceu de um texto como este.</p>
       </aside>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       CONTEÚDO PRINCIPAL
-  ═══════════════════════════════════════════════════════ -->
-  <main>
-
-    <!-- TILES DE CATEGORIA -->
-    <section class="categorias" aria-labelledby="tit-cats">
-      <h2 class="secao-titulo" id="tit-cats"><span>00</span> Programação</h2>
-      <div class="tiles">
-        <div class="tile tile-music">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc1)"/><path d="M18 32V18l16-4v14" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="34" r="4" fill="#fff" opacity=".9"/><circle cx="32" cy="30" r="4" fill="#fff" opacity=".9"/><defs><linearGradient id="tc1" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#ff5a1f"/><stop offset="1" stop-color="#ff8c5a"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">MÚSICA<br>24 HORAS</span>
-        </div>
-        <div class="tile tile-prog">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc2)"/><circle cx="24" cy="22" r="8" fill="#fff" opacity=".9"/><path d="M12 38c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><defs><linearGradient id="tc2" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#5b8fff"/><stop offset="1" stop-color="#8b5bff"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">PROGRAMAS<br>ORIGINAIS</span>
-        </div>
-        <div class="tile tile-esp">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc3)"/><path d="M24 10l3.6 7.3 8.1 1.2-5.9 5.7 1.4 8-7.2-3.8-7.2 3.8 1.4-8-5.9-5.7 8.1-1.2z" fill="#fff" opacity=".95"/><defs><linearGradient id="tc3" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#f7971e"/><stop offset="1" stop-color="#ffd200"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">ESPECIAIS<br>E SÉRIES</span>
-        </div>
-        <div class="tile tile-pod">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc4)"/><rect x="19" y="10" width="10" height="18" rx="5" fill="#fff" opacity=".9"/><path d="M14 26c0 5.523 4.477 10 10 10s10-4.477 10-10" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="24" y1="36" x2="24" y2="42" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="tc4" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#a56bfa"/><stop offset="1" stop-color="#e06dba"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">PODCASTS<br>COM IA</span>
-        </div>
-        <div class="tile tile-news">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc5)"/><rect x="12" y="14" width="24" height="4" rx="2" fill="#fff" opacity=".9"/><rect x="12" y="22" width="16" height="3" rx="1.5" fill="#fff" opacity=".7"/><rect x="12" y="29" width="20" height="3" rx="1.5" fill="#fff" opacity=".7"/><defs><linearGradient id="tc5" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#11998e"/><stop offset="1" stop-color="#38ef7d"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">NOTÍCIAS<br>E ATUALIDADES</span>
-        </div>
-        <div class="tile tile-cult">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc6)"/><circle cx="24" cy="24" r="12" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><path d="M14 24 Q24 10 34 24 Q24 38 14 24z" stroke="#fff" stroke-width="1.5" fill="none" opacity=".6"/><defs><linearGradient id="tc6" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#fc466b"/><stop offset="1" stop-color="#3f5efb"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">CULTURA<br>E ENTRETENIMENTO</span>
-        </div>
-        <div class="tile tile-nos">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc7)"/><rect x="10" y="20" width="28" height="16" rx="4" fill="#fff" opacity=".15" stroke="#fff" stroke-width="1.5"/><circle cx="22" cy="28" r="6" fill="#fff" opacity=".2" stroke="#fff" stroke-width="1.5"/><circle cx="22" cy="28" r="2.5" fill="#fff" opacity=".9"/><rect x="30" y="22" width="6" height="12" rx="2" fill="#fff" opacity=".3" stroke="#fff" stroke-width="1"/><path d="M22 20v-6M18 16l4-4 4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="tc7" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#c94b4b"/><stop offset="1" stop-color="#4b134f"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">NOSTALGIA<br>DO RÁDIO</span>
-        </div>
-        <div class="tile tile-ia">
-          <div class="tile-art" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="url(#tc8)"/><rect x="14" y="14" width="20" height="20" rx="4" fill="#fff" opacity=".15" stroke="#fff" stroke-width="1.5"/><text x="24" y="27" text-anchor="middle" font-size="12" font-weight="bold" fill="white" font-family="system-ui">AI</text><defs><linearGradient id="tc8" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#0f0c29"/><stop offset="1" stop-color="#302b63"/></linearGradient></defs></svg>
-          </div>
-          <span class="tile-nome">CONTEÚDO<br>100% COM IA</span>
-        </div>
-      </div>
     </section>
 
-    <!-- FAIXAS -->
     <section class="faixas">
       <div class="coluna">
         <h2 class="secao-titulo"><span>01</span> A seguir</h2>
@@ -339,15 +91,13 @@
       </div>
     </section>
 
-    <!-- GRADE -->
-    <section class="grade" id="grade" aria-labelledby="tituloGrade">
+    <section class="grade" aria-labelledby="tituloGrade">
       <h2 class="secao-titulo" id="tituloGrade"><span>03</span> Grade de hoje</h2>
       <div class="linha-24h" id="linha24h" aria-hidden="true"><div class="linha-agora" id="linhaAgora"></div></div>
       <ul class="blocos" id="listaBlocos"></ul>
     </section>
 
-    <!-- MANIFESTO -->
-    <section class="manifesto" id="manifesto">
+    <section class="manifesto">
       <h2 class="secao-titulo"><span>04</span> O que é a Rádio Prompt</h2>
       <div class="manifesto-grid">
         <p class="manifesto-frase">Nenhuma nota desta programação foi tocada por mãos humanas. <em>Toda música começou como um prompt.</em></p>
@@ -357,46 +107,17 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- RODAPÉ -->
   <footer class="rodape">
-    <div class="rodape-inner">
-      <span class="marca-cursor">&gt;_</span>
-      <span id="rodapeNome">Rádio Prompt</span>
-      <span class="rodape-sep">·</span>
-      <span id="rodapeSlogan">Toda a programação musical criada por inteligência artificial.</span>
-      <span class="rodape-links" id="rodapeLinks"></span>
-    </div>
+    <span class="marca-cursor">&gt;_</span>
+    <span id="rodapeNome">Rádio Prompt</span>
+    <span class="rodape-sep">·</span>
+    <span id="rodapeSlogan">Toda a programação musical criada por inteligência artificial.</span>
+    <span class="rodape-links" id="rodapeLinks"></span>
   </footer>
 
-  <div class="aviso" id="aviso" hidden></div>
   <audio id="audio" preload="none" crossorigin="anonymous"></audio>
   <script type="module" src="assets/player.js"></script>
-  <script>
-    (() => {
-      // Sync navbar btn com botão principal
-      const navBtn = document.getElementById('navPlay');
-      const mainBtn = document.getElementById('botaoPlay');
-      if (navBtn && mainBtn) {
-        navBtn.addEventListener('click', () => mainBtn.click());
-        new MutationObserver(() => { navBtn.disabled = mainBtn.disabled; })
-          .observe(mainBtn, { attributes: true, attributeFilter: ['disabled'] });
-        document.addEventListener('radioTocando', () => navBtn.textContent = '⏸ Pausar');
-        document.addEventListener('radioPausado', () => { navBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg> Ouça Agora'; });
-      }
-      // Hamburger
-      const ham = document.getElementById('hamburger');
-      const nav = document.getElementById('navLinks');
-      if (ham && nav) {
-        ham.addEventListener('click', () => {
-          const open = nav.classList.toggle('aberto');
-          ham.setAttribute('aria-expanded', open);
-          ham.classList.toggle('ativo', open);
-        });
-      }
-    })();
-  </script>
 </body>
 </html>
