@@ -100,6 +100,28 @@ dialog .formulario { max-width: none; }
 
 .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--texto); color: var(--fundo); padding: 10px 16px; border-radius: 10px; font-weight: 600; z-index: 20; }
 
+/* Programas */
+.lista-programas { display: grid; gap: 14px; }
+.programa-card { border: 1px solid var(--borda); border-radius: 14px; background: var(--painel); overflow: hidden; }
+.programa-cabecalho { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.programa-info { flex: 1; min-width: 0; }
+.programa-info strong { display: block; font-size: 1.05rem; }
+.programa-info span { color: var(--suave); font-size: .85rem; }
+.programa-acoes { display: flex; gap: 8px; align-items: center; }
+.programa-episodios { border-top: 1px solid var(--borda); background: var(--painel-2); }
+.programa-episodios table { width: 100%; }
+.ep-acoes-linha { display: flex; gap: 8px; padding: 10px 16px; border-top: 1px dashed var(--borda); }
+
+/* Dias da semana na grade */
+.dias-semana { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.dias-semana label { display: flex; align-items: center; gap: 4px; font-size: .78rem; color: var(--suave); cursor: pointer; }
+.dias-semana input { width: 14px; height: 14px; }
+.bloco-tipo { font-family: var(--mono); font-size: .78rem; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--borda); }
+
+/* Separadores de seção */
+.secao-hr { border: 0; border-top: 1px solid var(--borda); margin: 28px 0 20px; }
+.secao-titulo { font-size: 1.1rem; margin: 0 0 8px; color: var(--lilas); }
+
 @media (max-width: 820px) {
   main { padding: 16px; }
   .topo { padding: 12px 16px; }

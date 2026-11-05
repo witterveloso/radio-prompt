@@ -70,6 +70,11 @@ function proximaData(dataStr, delta = 1) {
   return dt.toISOString().slice(0, 10);
 }
 
+const DIAS_SEMANA = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
+function diaDaSemana(dataStr) {
+  return DIAS_SEMANA[new Date(dataStr + "T12:00:00Z").getUTCDay()];
+}
+
 /* ---------- carregamento ---------- */
 export async function carregarDados(base = "") {
   const pegar = async (arq, padrao) => {
@@ -82,13 +87,14 @@ export async function carregarDados(base = "") {
       return padrao;
     }
   };
-  const [config, musicas, vinhetas, grade] = await Promise.all([
+  const [config, musicas, vinhetas, grade, programas] = await Promise.all([
     pegar("config.json", {}),
     pegar("musicas.json", []),
     pegar("vinhetas.json", []),
     pegar("grade.json", []),
+    pegar("programas.json", []),
   ]);
-  return { config, musicas, vinhetas, grade };
+  return { config, musicas, vinhetas, grade, programas };
 }
 
 /* ---------- programação ---------- */
@@ -98,13 +104,14 @@ export class Programacao {
     this.desvioRelogio = 0;
   }
 
-  atualizar({ config = {}, musicas = [], vinhetas = [], grade = [] }) {
+  atualizar({ config = {}, musicas = [], vinhetas = [], grade = [], programas = [] }) {
     this.config = Object.assign(
       { fusoHorario: "America/Sao_Paulo", vinhetaACadaMusicas: 3, aberturaDeBloco: true },
       config
     );
     this.musicas = musicas.filter((m) => m.ativa !== false && Number(m.duracao) > 0);
     this.vinhetas = vinhetas.filter((v) => v.ativa !== false && Number(v.duracao) > 0);
+    this.programas = programas.filter((p) => p.ativa !== false);
     this.grade = grade
       .map((b) => ({ ...b, _ini: horaParaSeg(b.inicio), _fim: horaParaSeg(b.fim) || DIA }))
       .sort((a, b) => a._ini - b._ini);
@@ -124,7 +131,7 @@ export class Programacao {
       const t1 = Date.now();
       const data = r.headers.get("date");
       if (!data) return;
-      const servidor = new Date(data).getTime() + 500; // Date tem precisão de 1s
+      const servidor = new Date(data).getTime() + 500;
       const desvio = servidor - (t0 + t1) / 2;
       if (Math.abs(desvio) > 2500) this.desvioRelogio = desvio;
     } catch (e) { /* segue com o relógio local */ }
@@ -141,7 +148,7 @@ export class Programacao {
   blocoEm(seg) {
     for (const b of this.grade) {
       if (b._ini <= b._fim) { if (seg >= b._ini && seg < b._fim) return b; }
-      else if (seg >= b._ini || seg < b._fim) return b; // bloco que vira a meia-noite
+      else if (seg >= b._ini || seg < b._fim) return b;
     }
     return { id: "livre", nome: "Programação livre", generos: [], descricao: "", _ini: 0, _fim: DIA, _livre: true };
   }
@@ -157,13 +164,33 @@ export class Programacao {
   linhaDoDia(data) {
     if (this._cache.has(data)) return this._cache.get(data);
     const linha = [];
-    if (!this.musicas.length) { this._cache.set(data, linha); return linha; }
+
+    const temMusicas = this.musicas.length > 0;
+    const temProgramas = this.programas.some((p) =>
+      (p.episodios || []).some((e) => e.ativa !== false && Number(e.duracao) > 0)
+    );
+    if (!temMusicas && !temProgramas) { this._cache.set(data, linha); return linha; }
+
+    // Filtra blocos pelo dia da semana
+    const dia = diaDaSemana(data);
+    const gradeDoDia = this.grade.filter(
+      (b) => !b.diasDaSemana || !b.diasDaSemana.length || b.diasDaSemana.includes(dia)
+    );
+
+    const blocoEmDia = (seg) => {
+      for (const b of gradeDoDia) {
+        if (b._ini <= b._fim) { if (seg >= b._ini && seg < b._fim) return b; }
+        else if (seg >= b._ini || seg < b._fim) return b;
+      }
+      return { id: "livre", nome: "Programação livre", generos: [], descricao: "", _ini: 0, _fim: DIA, _livre: true };
+    };
 
     const ids = this.vinhetas.filter((v) => v.tipo !== "abertura");
     const aberturas = this.vinhetas.filter((v) => v.tipo === "abertura");
     const N = Number(this.config.vinhetaACadaMusicas) || 0;
     const sacos = new Map();
     const rodadas = new Map();
+    const epIndices = new Map();
     let t = 0, blocoAtual = null, cont = 0, ultima = null, idxVinheta = 0;
 
     const empurrar = (tipo, ref, bloco) => {
@@ -174,6 +201,7 @@ export class Programacao {
 
     const tirarDoSaco = (bloco) => {
       const pool = this.poolDoBloco(bloco);
+      if (!pool.length) return null;
       let saco = sacos.get(bloco.id);
       if (!saco || !saco.length) {
         const r = (rodadas.get(bloco.id) || 0) + 1;
@@ -189,7 +217,7 @@ export class Programacao {
 
     let guarda = 0;
     while (t < DIA && guarda++ < 20000) {
-      const bloco = this.blocoEm(t);
+      const bloco = blocoEmDia(t);
       if (bloco.id !== blocoAtual) {
         blocoAtual = bloco.id;
         cont = 0;
@@ -198,11 +226,30 @@ export class Programacao {
           continue;
         }
       }
+
+      /* bloco de programa: toca episódios em sequência */
+      if (bloco.tipo === "programa" && bloco.programaId) {
+        const prog = this.programas.find((p) => p.id === bloco.programaId);
+        if (prog) {
+          const eps = (prog.episodios || []).filter((e) => e.ativa !== false && Number(e.duracao) > 0);
+          if (eps.length) {
+            const idx = epIndices.get(bloco.id) || 0;
+            empurrar("musica", { ...eps[idx % eps.length], _episodio: true, artista: prog.apresentador || "" }, bloco);
+            epIndices.set(bloco.id, idx + 1);
+            cont++;
+            continue;
+          }
+        }
+        /* programa sem episódios: cai para musical */
+      }
+
+      /* bloco musical */
       const musica = tirarDoSaco(bloco);
+      if (!musica) break;
       empurrar("musica", musica, bloco);
       ultima = musica;
       cont++;
-      if (N > 0 && ids.length && cont % N === 0 && t < DIA && this.blocoEm(t).id === bloco.id) {
+      if (N > 0 && ids.length && cont % N === 0 && t < DIA && blocoEmDia(t).id === bloco.id) {
         empurrar("vinheta", ids[idxVinheta++ % ids.length], bloco);
       }
     }
@@ -267,7 +314,6 @@ const PALETAS = {
 export function paletaDe(genero, semente) {
   const p = PALETAS[normalizarGenero(genero)];
   if (p) return p;
-  // gênero novo: paleta própria e estável, derivada do nome do gênero
   const r = aleatorio(normalizarGenero(genero) || String(semente) + "pal");
   const h = Math.floor(r() * 360);
   return [hslHex(h, 45, 9), hslHex((h + 30) % 360, 90, 60), hslHex((h + 200) % 360, 80, 62), hslHex(h, 60, 92)];
@@ -288,7 +334,6 @@ export function desenharCapa(canvas, semente, genero) {
   const [fundo, c1, c2, c3] = paletaDe(genero, semente);
   ctx.fillStyle = fundo;
   ctx.fillRect(0, 0, W, H);
-  // halos
   for (let i = 0; i < 3; i++) {
     const x = r() * W, y = r() * H, rad = W * (0.35 + r() * 0.5);
     const g = ctx.createRadialGradient(x, y, 0, x, y, rad);
@@ -299,7 +344,6 @@ export function desenharCapa(canvas, semente, genero) {
     ctx.fillRect(0, 0, W, H);
   }
   ctx.globalCompositeOperation = "source-over";
-  // ondas de sinal
   ctx.lineWidth = Math.max(1, W / 220);
   const linhas = 14 + Math.floor(r() * 10);
   const freq = 2 + r() * 5, amp = H * (0.03 + r() * 0.08), fase = r() * Math.PI * 2;
@@ -314,7 +358,6 @@ export function desenharCapa(canvas, semente, genero) {
     }
     ctx.stroke();
   }
-  // grão
   const img = ctx.getImageData(0, 0, W, H);
   for (let i = 0; i < img.data.length; i += 4) {
     const n = (r() - 0.5) * 22;
